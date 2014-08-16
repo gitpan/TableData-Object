@@ -1,0 +1,121 @@
+NAME
+    TableData::Object - Manipulate table data
+
+VERSION
+    This document describes version 0.01 of TableData::Object (from Perl
+    distribution TableData-Object), released on 2014-08-16.
+
+SYNOPSIS
+     use TableData::Object qw(table);
+
+     $td = TableData::Object->new([1, 2, 3, 4]);  # from array of scalars
+     $td = TableData::Object->new([[1,2],[2,3]]); # from array of arrays of scalars
+     $td = TableData::Object->new([{name=>"Andi"}, {name=>"Budi", gender=>"m"}]);
+                                                  # from array of hashes of scalars
+     $td = TableData::Object->new(4); # die, can only accept in the above form
+
+     # shortcut to construct object
+     $td = table(...);
+
+     # for the examples below, this object is assumed
+     $td = TableData::Object->new([["Andi",3000], ["Budi",4000], ["Cinta",2500]]);
+
+     # retrieve names of columns
+     $cols = $td->columns; # -> ["column0", "column1"]
+
+     # set names of columns
+     $td->columns(["name", "salary"]);
+
+     # retrieve a single column
+     $col = $td->column("salary"); # -> [3000,4000,2500]
+     $col = $td->column("foo");    # dies, unknown column
+
+     # retrieve rows data, each row as arrays
+     $rows = $td->rows_as_array; # -> (["Andi",3000], ["Budi",4000], ["Cinta",2500])
+
+     # retrieve rows data, each row as hash
+     $rows = $td->rows_as_hash; # -> ({name=>"Andi",salary=>3000}, {name=>"Budi",salary=>4000}, {name=>"Cinta",salary=>2500})
+
+     # retrieve a specific row
+     $row = $td->row_as_array(2); # -> ["Cinta",2500]
+     $row = $td->row_as_hash(1); # -> [{name=>"Budi",salary=>4000}]
+
+     # convert to specific forms
+     $data = $td->as_aoaos;
+     $data = $td->as_aohos;
+
+     # XXX add row
+
+     # XXX add column
+
+     # XXX delete row(s)
+
+     # XXX delete column(s)
+
+     # XXX rename column
+
+     # XXX reorder column
+
+DESCRIPTION
+    This module provides a class to manipulate table data. Table data can be
+    in the form of array of scalars (aos), array of arrays of scalars
+    (aoaos), or array of hashes of scalars (aohos). There are methods to
+    get/set the columns/rows, convert to the other forms, etc.
+
+    Aos data is assumed to be a single-column table with column named "data"
+    (but this can be renamed). Aoaos data is assumed to have columns named
+    "column0", "column1", and so on (but this can be changed). Aohos data is
+    assumed to have columns according to the hash keys (sorted
+    alphabetically) and column names cannot be changed.
+
+FUNCTIONS
+  table($data[, $spec]) => obj
+    Exportable. Shortcut for constructor.
+
+METHODS
+  new($data[, $spec]) => obj
+    Constructor.
+
+    $spec is optional and should be table specification hash according
+    TableDef.
+
+  columns([ $cols ]) => array
+    Get or set columns.
+
+  column_data($name) => array
+    Get a single column data.
+
+  rows_as_array => array of array of scalar
+  rows_as_hash => array of hash of scalar
+  row_as_array($index) => array of scalar
+  row_as_hash($index) => hash of scalar
+  as_aoaos() => array of array of scalar
+  as_aohos() => array of hash of scalar
+TODO
+SEE ALSO
+    TableDef
+
+HOMEPAGE
+    Please visit the project's homepage at
+    <https://metacpan.org/release/TableData-Object>.
+
+SOURCE
+    Source repository is at
+    <https://github.com/sharyanto/perl-TableData-Object>.
+
+BUGS
+    Please report any bugs or feature requests on the bugtracker website
+    <https://rt.cpan.org/Public/Dist/Display.html?Name=TableData-Object>
+
+    When submitting a bug or request, please include a test-file or a patch
+    to an existing test-file that illustrates the bug or desired feature.
+
+AUTHOR
+    Steven Haryanto <stevenharyanto@gmail.com>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2014 by Steven Haryanto.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+
